@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Editor</title>
+    <style>
+        html {
+            background: url('https://images.unsplash.com/photo-1691513218992-a8ee49db259a?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') no-repeat center center fixed;
+            background-size: cover;
+            background-attachment: fixed; 
+        }
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            margin: 0; 
+            padding: 0; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        #editor {
+            width: 80%;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8); 
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+        textarea, input, button {
+            display: block;
+            margin: 10px 0;
+            width: 100%;
+            padding: 10px;
+            border: 1px solid rgba(0, 0, 0, 0.3); 
+            background-color: rgba(255, 255, 255, 0.8); 
+        }
+        textarea {
+            height: 150px;
+        }
+        img, video {
+            max-width: 100%;
+            height: auto;
+        }
+        #blog-preview {
+            background-color: rgba(255, 255, 255, 0.8); 
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="editor">
+        <h1>Create a Blog Post</h1>
+        <label for="title">Title:</label>
+        <input type="text" id="title" placeholder="Enter the title of your blog post">
+
+        <label for="content">Content:</label>
+        <textarea id="content" placeholder="Enter the content of your blog post"></textarea>
+
+        <label for="image">Insert Image from your Computer:</label>
+        <input type="file" id="fileImage" accept="image/*">
+
+        <label for="video">Insert Video from your Computer:</label>
+        <input type="file" id="fileVideo" accept="video/*">
+
+        <button id="addText">Add Text</button>
+        <button id="addImage">Add Image</button>
+        <button id="addVideo">Add Video</button>
+        <button id="savePost">Save Post</button>
+        <button id="preview">Preview</button>
+
+        <div id="blog-preview"></div>
+    </div>
+
+    <script>
+        document.getElementById('addText').addEventListener('click', function() {
+            const richTextEditor = document.getElementById('rich-text-editor');
+            const content = richTextEditor.innerHTML;
+            const blogPreview = document.getElementById('blog-preview');
+            blogPreview.innerHTML += `<p>${content}</p>`;
+            richTextEditor.innerHTML = "";
+        });
+
+        document.getElementById('addImage').addEventListener('click', function() {
+            const fileImage = document.getElementById('fileImage').files[0];
+            if (fileImage) {
+                const imageURL = URL.createObjectURL(fileImage);
+                const blogPreview = document.getElementById('blog-preview');
+                blogPreview.innerHTML += `<img src="${imageURL}" alt="Image">`;
+            }
+        });
+
+        document.getElementById('addVideo').addEventListener('click', function() {
+            const fileVideo = document.getElementById('fileVideo').files[0];
+            if (fileVideo) {
+                const videoURL = URL.createObjectURL(fileVideo);
+                const blogPreview = document.getElementById('blog-preview');
+                blogPreview.innerHTML += `<video controls><source src="${videoURL}" type="${fileVideo.type}">Your browser does not support the video tag.</video>`;
+            }
+        });
+
+        document.getElementById('savePost').addEventListener('click', function() {
+            const title = document.getElementById('title').value;
+            const content = document.getElementById('blog-preview').innerHTML;
+            alert("Blog post saved:\n\nTitle: " + title + "\nContent: " + content);
+        });
+
+        document.getElementById('preview').addEventListener('click', function() {
+            const title = document.getElementById('title').value;
+            const content = document.getElementById('blog-preview').innerHTML;
+            const blogPreview = document.getElementById('blog-preview');
+            blogPreview.innerHTML = `<h2>${title}</h2>${content}`;
+        });
+    </script>
+</body>
+</html>
